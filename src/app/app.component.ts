@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { User } from './models/user';
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'front-dating';
+  users: any;
+
+constructor(private accountService: AccountService ) { }
+
+  ngOnInit(): void {
+    this.setCurrentUser();
+  }
+
+setCurrentUser() {
+    const userString = (localStorage.getItem('user'));
+    if (!userString) return;
+    const user: User = JSON.parse(userString);
+    this.accountService.setCurrentUser(user);
+}
 }
