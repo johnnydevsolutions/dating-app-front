@@ -10,6 +10,8 @@ import { User } from '../models/user';
 export class AccountService {
 
   private readonly API = environment.API
+  private readonly API2 = environment.API2
+
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
@@ -28,12 +30,13 @@ export class AccountService {
   }
 
   register(model: any) {
-    return this.http.post<User>(this.API, 'account/register', model).pipe(
+    return this.http.post<User>(this.API2, model).pipe(
       map((user: any) => {
         if (user){
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
         }
+        console.log(user)
       })
     );
   }
