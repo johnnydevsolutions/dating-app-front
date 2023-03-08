@@ -6,19 +6,21 @@ import { ListaComponent } from './members/lista/lista.component';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './members/messages/messages.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
-  /* { path: '', redirectTo: 'home', pathMatch: 'full' }, */
   {path: '', component: HomepageComponent},
-  {path: 'members', component: MemberListComponent},
-  {path: 'members/:id', component: MemberDetailsComponent},
-  {path: 'lists', component: ListaComponent},
-  {path: 'messages', component: MessagesComponent},
+  {path: '',
+   runGuardsAndResolvers: 'always',
+   canActivate: [AuthGuard],
+    children: [
+      {path: 'members', component: MemberListComponent},
+      {path: 'members/:id', component: MemberDetailsComponent},
+      {path: 'lists', component: ListaComponent},
+      {path: 'messages', component: MessagesComponent}
+    ]
+},
   {path: '**', component: HomepageComponent, pathMatch: 'full'}
-
-
-/*   { path: 'home', loadChildren: () => import('./dashboard/homepage/homepage.module').then(m => m.HomepageModule) },
- */
 ];
 
 @NgModule({
