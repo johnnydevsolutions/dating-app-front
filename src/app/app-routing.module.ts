@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from './dashboard/homepage/homepage.component';
 import { RegisterComponent } from './dashboard/register/register.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { ListaComponent } from './members/lista/lista.component';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
@@ -20,6 +23,9 @@ const routes: Routes = [
       {path: 'messages', component: MessagesComponent}
     ]
 },
+  {path: 'errors', component: TestErrorComponent},
+  {path: 'not-found', component: NotFoundComponent},
+  {path: 'server-error', component: ServerErrorComponent},
   {path: '**', component: HomepageComponent, pathMatch: 'full'}
 ];
 
