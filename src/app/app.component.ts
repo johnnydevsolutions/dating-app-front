@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from './models/user';
-import { AccountService } from './services/account.service';
+import { ContaService } from './services/conta.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'front-dating';
   users: any;
 
-constructor(private accountService: AccountService ) { }
+constructor(private contaService: ContaService ) { }
 
   ngOnInit(): void {
     this.setCurrentUser();
@@ -21,6 +21,6 @@ setCurrentUser() {
     const userString = (localStorage.getItem('user'));
     if (!userString) return;
     const user: User = JSON.parse(userString);
-    this.accountService.setCurrentUser(user);
+    this.contaService.setCurrentUser(user);
 }
 }

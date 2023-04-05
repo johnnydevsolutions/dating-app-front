@@ -7,10 +7,10 @@ import { User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
+export class ContaService {
 
-  private readonly API = environment.API
-  private readonly API2 = environment.API2
+  private readonly APILogin = environment.API
+  private readonly APIRegister = environment.API2
 
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
@@ -18,7 +18,7 @@ export class AccountService {
   constructor(private http: HttpClient) { }
 
   login(model: any) {
-    return this.http.post<User>(this.API, model).pipe(
+    return this.http.post<User>(this.APILogin, model).pipe(
       map((response: User) => {
         const user = response;
         if (user) {
@@ -30,7 +30,7 @@ export class AccountService {
   }
 
   register(model: any) {
-    return this.http.post<User>(this.API2, model).pipe(
+    return this.http.post<User>(this.APIRegister, model).pipe(
       map((user: any) => {
         if (user){
           localStorage.setItem('user', JSON.stringify(user));

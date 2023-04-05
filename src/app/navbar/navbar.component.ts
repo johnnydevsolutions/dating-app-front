@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { User } from '../models/user';
-import { AccountService } from '../services/account.service';
+import { ContaService } from '../services/conta.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +13,7 @@ import { AccountService } from '../services/account.service';
 export class NavbarComponent {
 model: any = {};
 
-constructor(public accountService: AccountService,
+constructor(public contaService: ContaService,
             private router: Router,
             private toastr: ToastrService) { }
 
@@ -22,13 +22,13 @@ ngOnInit(): void {
 }
 
 login(){
-  this.accountService.login(this.model).subscribe({
+  this.contaService.login(this.model).subscribe({
     next: () => this.router.navigateByUrl('/members'),
     error: error => this.toastr.error(error.error)
     });
 }
 
  logout(){
-   this.accountService.logout();
+   this.contaService.logout();
  }
 }
