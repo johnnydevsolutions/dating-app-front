@@ -14,14 +14,14 @@ export class MembersService {
   constructor(private http: HttpClient) { }
 
   getMembers() {
-    return this.http.get<Members[]>(this.APIGet + 'users', this.getHttpOptions());
+    return this.http.get<Members[]>(this.APIGet + 'users');
   }
 
   getMember(username: string) {
-    return this.http.get<Members>(this.APIPostLogin + 'users' + username, this.getHttpOptions());
+    return this.http.get<Members>(this.APIGet + 'users/' + username);
   }
 
-  getHttpOptions() {
+ /*  getHttpOptions() {
     const userString = localStorage.getItem('user');
     if(!userString) return;
     const user = JSON.parse(userString);
@@ -30,6 +30,6 @@ export class MembersService {
         Authorization: `Bearer ${user.token}`
       })
     }
-  }
+  } */
 
 }
