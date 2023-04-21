@@ -41,4 +41,11 @@ export class MembersService {
     )
   }
 
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.APIGet + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.APIGet + 'users/delete-photo/' + photoId)
+  }
 }
