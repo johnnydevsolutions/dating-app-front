@@ -16,6 +16,14 @@ export class MembersService {
 
   constructor(private http: HttpClient) { }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = 'SEU_TOKEN_DE_AUTENTICACAO'; // Recupere seu token de autenticação
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
   getMembers() {
     if(this.members.length > 0) return of(this.members)
     return this.http.get<Members[]>(this.APIGet + 'users').pipe(
