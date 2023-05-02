@@ -21,11 +21,12 @@
         </div>
         <div>
           <strong>Last Online:</strong>
-          <p>{{member.lastActive}}</p>
+          <p>{{member.lastActive + 'Z' | timeago}}</p> <!-- Added + 'Z' to fix error: "InvalidPipeArgument: '2019-10-30T20:00:00' for pipe 'TimeAgoPipe'" -->
+          <!--Tire o 'Z' caso queira que conte o tempo em tempo real-->
         </div>
         <div>
           <strong>Member Since:</strong>
-          <p>{{member.created}}</p>
+          <p>{{member.created | date: 'dd MMM yyyy'}}</p>
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
