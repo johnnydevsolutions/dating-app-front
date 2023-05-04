@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary mb-5">
-  <div class="container"> <!-- Se eu quiser que os itens fiquem nos cantos posso usar o: container-fluid -->
+  <div class="container-fluid"> <!-- Se eu quiser que os itens fiquem nos cantos posso usar o: container-fluid -->
     <a class="navbar-brand" routerLink="/">JD Dating</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
       aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,7 +9,7 @@
 
       <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf=" contaService.currentUser$ | async">
 
-        <ng-container *ngIf="contaService.currentUser$ | async">
+        <ng-container *ngIf="contaService.currentUser$ | async" >
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/members" routerLinkActive="active">Matches</a>
         </li>
@@ -35,13 +35,13 @@
           <a class="dropdown-item" (click)="logout()">Logout</a>
         </div>
       </div>
-
+    </div>
       <form *ngIf="!(contaService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
         <input class="form-control me-2" name="username" [(ngModel)]="model.username" type="text" placeholder="Username">
         <input class="form-control me-2" name="password" [(ngModel)]="model.password" type="text" placeholder="Password">
         <button class="btn btn-success" type="submit">Login</button>
       </form>
-    </div>
+
   </div>
 </nav>
 

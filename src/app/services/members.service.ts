@@ -15,6 +15,7 @@ export class MembersService {
   private readonly APIPostLogin = environment.API
   private readonly APIPostRegister = environment.API2
   private readonly APIGet = environment.API3
+  private readonly APILikes = environment.API4
 
   members: Members[] = [];
   memberCache = new Map();
@@ -93,8 +94,17 @@ export class MembersService {
   }
 
   deletePhoto(photoId: number) {
-    return this.http.delete(this.APIGet + 'users/delete-photo/' + photoId)
+    return this.http.delete(this.APILikes + 'users/delete-photo/' + photoId)
   }
+
+  addLike(username: string) {
+    return this.http.post(this.APILikes + 'likes/' + username, {});
+  }
+
+  getLikes(predicate: string) {
+    return this.http.get<Members[]>(this.APILikes + 'likes?predicate=' + predicate);
+  }
+
 
   private getAuthHeaders(): HttpHeaders {
     const token = 'SEU_TOKEN_DE_AUTENTICACAO'; // Recupere seu token de autenticação

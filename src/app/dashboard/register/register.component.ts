@@ -35,7 +35,7 @@ export class RegisterComponent {
       dateOfBirth: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8),Validators.pattern(/^(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]],
     });
     this.registerForm.controls['password'].valueChanges.subscribe({
@@ -50,6 +50,13 @@ export class RegisterComponent {
       return control.value === control.parent?.get(matchTo)?.value ? null : {notMatching: true};
   }
 }
+
+  /* passwordValidator(control: AbstractControl): {[key: string]: boolean} | null {
+    const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z]).{8,}$/; // Password regex pattern
+    const valid = passwordRegex.test(control.value); // Test the password value against the regex pattern
+    return valid ? null : { invalidPassword: true };
+  } */
+
 
   register() {
     const dob = this.getDateOnly(this.registerForm.get('dateOfBirth')?.value);
