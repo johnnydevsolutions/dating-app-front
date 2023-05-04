@@ -101,8 +101,13 @@ export class MembersService {
     return this.http.post(this.APILikes + 'likes/' + username, {});
   }
 
-  getLikes(predicate: string) {
-    return this.http.get<Members[]>(this.APILikes + 'likes?predicate=' + predicate);
+  getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    let params = this.getPaginationHeaders(pageNumber, pageSize)
+
+    params = params.append('predicate', predicate);
+
+    return this.getPaginatedResult<Members[]>(this.APILikes + 'likes', params);
+    /* return this.http.get<Members[]>(this.APILikes + 'likes?predicate=' + predicate); */
   }
 
 
