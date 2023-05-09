@@ -25,33 +25,12 @@ export class MessagesService {
     return this.http.get<Messages[]>(this.APIMessages + 'messages/thread/' + username);
   }
 
+  sendMessage(username: string, content: string) {
+    return this.http.post<Messages>(this.APIMessages + 'messages', {recipientUsername: username, content});
+  }
 
-/* Não Mais Usado, pq eu estou pegando do paginationHelper.ts, caso queira como antes apenas remova o this.http e coloque this.getPaginatedResult e this antes do  getPaginationHeaders
-Com isso vai dar pra usar do jeito anterior */
-
-  // private getPaginatedResult<T>(url: string, params: HttpParams) {
-  //   const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-  //   return this.http.get<T>(this.APIMessages + 'messages', { observe: 'response', params }).pipe(
-  //     map(response => {
-  //       if (response.body) {
-  //         paginatedResult.result = response.body;
-  //       }
-  //       const pagination = response.headers.get('Pagination');
-  //       if (pagination) {
-  //         paginatedResult.pagination = JSON.parse(pagination);
-  //       }
-  //       return paginatedResult;
-  //     })
-  //   );
-  // }
-
-  // private getPaginationHeaders(pageNumber: number, pageSize: number) {
-  //   let params = new HttpParams();
-
-  //     params = params.append('pageNumber', pageNumber.toString());
-  //     params = params.append('pageSize', pageSize.toString());
-
-  //   return params;
-  // }
+  deleteMessage(id: number) {
+    return this.http.delete(this.APIMessages + 'messages/' + id);
+  }
 
 }

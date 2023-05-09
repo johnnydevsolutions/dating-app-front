@@ -1,4 +1,4 @@
-<div class="row" *ngIf="member">
+<div class="row">
   <div class="col-4">
     <div class="card">
       <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail">
@@ -23,7 +23,7 @@
           <div class="btn-group d-flex">
             <!-- <button class="btn btn-primary btn-block" [routerLink]="['/members', member.userName]">View Profile</button> -->
             <button class="btn btn-primary btn-block">Like</button>
-            <button class="btn btn-success btn-block">Send Message</button>
+            <button (click)="selectTab('Messages')" class="btn btn-success btn-block">Send Message</button>
           </div>
         </div>
       </div>

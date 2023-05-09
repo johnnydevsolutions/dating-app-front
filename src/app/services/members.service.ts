@@ -77,7 +77,7 @@ export class MembersService {
     const member = [...this.memberCache.values()]
       .reduce((arr, elem) => arr.concat(elem.result), [])
       .find((member: Members) => member.userName === username);
-      console.log(member);
+      /* console.log(member); */
     return this.http.get<Members>(this.APIGet + 'users/' + username);
   }
 

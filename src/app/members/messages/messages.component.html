@@ -13,7 +13,7 @@
     </button>
 
     <button class="btn btn-primary" btnRadio="Outbox" [(ngModel)]="container" (click)="loadMessages()">
-      <i class="fa fa-paper-plane"></i> Outbox
+      <i class="fa fa-paper-plane"></i> Sent
     </button>
   </div>
 </div>
@@ -36,8 +36,9 @@
     </thead>
     <tbody class="align-middle">
 
-      <tr *ngFor="let message of messages"
-      routerLink="{{container === 'Outbox'? '/members/' + message.recipientUsername: '/members/' + message.senderUsername}}">
+      <tr [hidden]="loading" *ngFor="let message of messages"
+      routerLink="{{container === 'Outbox'? '/members/' + message.recipientUsername: '/members/' + message.senderUsername}}"
+       [queryParams]="{tab: 'Messages'}">
       <!--O código acima Faz com que seja possível clicar e ser redirecionado para o perfil do usuario do qual foi clicado-->
         <td>{{message.content}}</td>
         <td>
@@ -52,14 +53,14 @@
         </td>
         <td>{{message.messageSent | date:'medium'}}</td>
         <td>
-          <button class="btn btn-danger" >Delete</button>
+          <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
  </div>
 
- <div class="d-flex justify-content-center" *ngIf="pagination && messages && messages.length > 0">
+ <div class="d-flex justify-content-center" *ngIf=" !loading && pagination && messages && messages.length > 0">
   <pagination [boundaryLinks]="true"
               [totalItems]="pagination.totalItems"
               [itemsPerPage]="pagination.itemsPerPage"

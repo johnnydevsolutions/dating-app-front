@@ -13,6 +13,7 @@ export class MessagesComponent {
   container = 'Unread';
   pageNumber = 1;
   pageSize = 5;
+  loading = false;
 
   constructor(private messageService: MessagesService) { }
 
@@ -21,14 +22,22 @@ export class MessagesComponent {
   }
 
   loadMessages() {
+    this.loading = true;
     this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe({
       next: response => {
         this.messages = response.result;
         this.pagination = response.pagination;
+        this.loading = false;
       },
       error: error => {
         console.log(error);
       }
+    })
+  }
+
+  deleteMessage(id: number) {
+    this.messageService.deleteMessage(id).subscribe(()=> {
+      this.messages?.splice(this.messages.findIndex(m => m.id === id), 1);
     })
   }
 

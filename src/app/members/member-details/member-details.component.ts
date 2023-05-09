@@ -13,11 +13,11 @@ import { MessagesService } from 'src/app/services/messages.service';
   styleUrls: ['./member-details.component.scss']
 })
 export class MemberDetailsComponent {
-  @ViewChild ('memberTabs') memberTabs?: TabsetComponent
+  @ViewChild ('memberTabs', {static: true}) memberTabs?: TabsetComponent
   activeTab?: TabDirective;
   messages: Messages [] = [];
 
-  member: Members | undefined;
+  member: Members  = {} as Members;
   galleryOptions: NgxGalleryOptions [] = [];
   galleryImages: NgxGalleryImage [] = [];
 
@@ -26,11 +26,22 @@ export class MemberDetailsComponent {
               private messageService: MessagesService) { }
 
   ngOnInit(): void {
-    this.carregarMembro();
+    // this.carregarMembro();
+    this.route.data.subscribe({
+      next: data => this.member = data['member']
+    })
+
+    this.route.queryParams.subscribe({
+      next: params => {
+        params['tab'] && this.selectTab(params['tab']);
+      }
+    })
 
     this.galleryOptions = [
       { width: '500px', height: '500px', imagePercent: 100, thumbnailsColumns: 4, imageAnimation: NgxGalleryAnimation.Slide, preview: false },
     ]
+
+    this.galleryImages = this.getImages();
   }
 
   getImages() {
@@ -46,15 +57,10 @@ export class MemberDetailsComponent {
     return imageUrls;
   }
 
-  carregarMembro(){
-     const username = this.route.snapshot.paramMap.get('username');
-     if (!username) return;
-      this.memberService.getMember(username).subscribe({
-        next: member => {
-          this.member = member
-          this.galleryImages = this.getImages();
-        },
-  });
+  selectTab(heading: string) {
+    if(this.memberTabs) {
+      this.memberTabs.tabs.find(x => x.heading === heading)!.active = true;
+    }
   }
 
   loadMessages() {

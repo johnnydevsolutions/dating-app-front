@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Messages } from 'src/app/models/messages';
 import { MessagesService } from 'src/app/services/messages.service';
 
@@ -10,19 +11,21 @@ import { MessagesService } from 'src/app/services/messages.service';
 export class MemberMessagesComponent implements OnInit {
   @Input() username?: string
   @Input() messages: Messages[] = []
+  @ViewChild('messageForm') messageForm?: NgForm;
+  messageContent = '';
 
   constructor(private messageService: MessagesService) { }
 
   ngOnInit(): void {
-    // this.loadMessages()
   }
 
-  //Coloquei o metodo loadMessages() no member-details.component.ts
-  // loadMessages() {
-  //   if (this.username) {
-  //     this.messageService.getMessageThread(this.username).subscribe({
-  //       next: messages => this.messages = messages
-  //     })
-  //   }
-  // }
+  sendMessage() {
+    if (!this.username) return;
+    this.messageService.sendMessage(this.username, this.messageContent).subscribe({
+      next: message => {
+        this.messages.push(message);
+        this.messageForm?.reset();
+        }
+    })
+  }
 }

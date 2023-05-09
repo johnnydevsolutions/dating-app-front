@@ -22,8 +22,15 @@
   margin-top: 10px;
   margin-right: 10px;
   padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .clock-class {
   padding-right: 3px;
+}
+
+.chat-body {
+  word-wrap: break-word;
 }
