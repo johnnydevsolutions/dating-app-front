@@ -95,7 +95,7 @@ export class MembersService {
   }
 
   deletePhoto(photoId: number) {
-    return this.http.delete(this.APILikes + 'users/delete-photo/' + photoId)
+    return this.http.delete(this.APIGet + 'users/delete-photo/' + photoId)
   }
 
   addLike(username: string) {

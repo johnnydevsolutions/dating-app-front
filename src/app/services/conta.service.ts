@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../models/user';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class ContaService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private presenceService: PresenceService) { }
 
   login(model: any) {
     return this.http.post<User>(this.APILogin, model).pipe(
@@ -42,10 +44,12 @@ export class ContaService {
   setCurrentUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+    this.presenceService.createHubConnection(user);
   }
 
   logout() {
     localStorage.removeItem('token');
     this.currentUserSource.next(null);
+    this.presenceService.stopHubConnection();
   }
 }

@@ -21,7 +21,7 @@ import { TimeagoModule } from 'ngx-timeago';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ToastrModule.forRoot({
-      positionClass: 'toast-top-right'
+      positionClass: 'toast-bottom-right'
     }),
     NgxGalleryModule,
     NgxSpinnerModule.forRoot({
