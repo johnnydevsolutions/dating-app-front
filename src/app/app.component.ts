@@ -8,7 +8,7 @@ import { ContaService } from './services/conta.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'front-dating';
+  title = 'LoveConnect';
   users: any;
 
 constructor(private contaService: ContaService ) { }
