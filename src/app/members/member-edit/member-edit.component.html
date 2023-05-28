@@ -21,7 +21,7 @@
         </div>
         <div>
           <strong>Last Online:</strong>
-          <p>{{member.lastActive + 'Z' | timeago}}</p> <!-- Added + 'Z' to fix error: "InvalidPipeArgument: '2019-10-30T20:00:00' for pipe 'TimeAgoPipe'" -->
+          <p>{{member.lastActive  | timeago}}</p> <!-- Added + 'Z' to fix error: "InvalidPipeArgument: '2019-10-30T20:00:00' for pipe 'TimeAgoPipe'" -->
           <!--Tire o 'Z' caso queira que conte o tempo em tempo real-->
         </div>
         <div>
