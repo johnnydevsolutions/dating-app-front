@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Members } from 'src/app/models/members';
 import { MembersService } from 'src/app/services/members.service';
+import { MessagesService } from 'src/app/services/messages.service';
 import { PresenceService } from 'src/app/services/presence.service';
 
 @Component({
@@ -12,9 +13,12 @@ import { PresenceService } from 'src/app/services/presence.service';
 export class MemberCardComponent {
   @Input() member: Members | undefined;
   isLiked: boolean = false;
+  hasMessage: boolean = false;
+  hasUnreadMessage: boolean = false; // Adicione esta propriedade
 
 
   constructor(private memberService: MembersService,
+              private messagesService: MessagesService,
               private toastr: ToastrService,
               public presenceService: PresenceService) { }
 
@@ -25,6 +29,12 @@ export class MemberCardComponent {
         error => this.toastr.error(error)
       );
     }
+
+    this.messagesService.checkUnreadMessages().subscribe(
+      hasMessage => this.hasMessage = hasMessage,
+      error => this.toastr.error(error)
+    );
+
   }
 
 

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Messages } from '../models/messages';
 import { environment } from '../environments/environment';
 import { PaginatedResult } from '../models/pagination';
-import { BehaviorSubject, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../models/user';
@@ -84,6 +84,13 @@ export class MessagesService {
 
   deleteMessage(id: number) {
     return this.http.delete(this.APIMessages + 'messages/' + id);
+  }
+
+  checkUnreadMessages(): Observable<boolean> {
+    return this.http.get<Messages[]>(this.APIMessages + 'messages')
+      .pipe(
+        map((messages: Messages[]) => messages.length > 0)
+      );
   }
 
 }
