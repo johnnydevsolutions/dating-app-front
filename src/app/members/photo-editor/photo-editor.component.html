@@ -33,11 +33,16 @@
                Drop here or click to upload
           </div>
 
-          Multiple
-          <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+          <div class="custom-file-button-wrapper">
+            <label for="fileInput" class="btn btn-primary">Escolher arquivo</label>
+            <input type="file" id="fileInput" ng2FileSelect [uploader]="uploader" multiple style="display:none;" />
+          </div>
+
+       <!--    Multiple
+          <input type="file" ng2FileSelect [uploader]="uploader" multiple class="custom-file-button" /><br/>
 
           Single
-          <input type="file" ng2FileSelect [uploader]="uploader" />
+          <input type="file" ng2FileSelect [uploader]="uploader" class="custom-file-button" /> -->
       </div>
 
       <div class="col-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
