@@ -11,23 +11,33 @@ import { PresenceService } from 'src/app/services/presence.service';
 })
 export class MemberCardComponent {
   @Input() member: Members | undefined;
+  isLiked: boolean = false;
+
 
   constructor(private memberService: MembersService,
               private toastr: ToastrService,
               public presenceService: PresenceService) { }
 
   ngOnInit(): void {
-
+    if (this.member) {
+      this.memberService.checkLike(this.member.userName).subscribe(
+        isLiked => this.isLiked = isLiked,
+        error => this.toastr.error(error)
+      );
+    }
   }
+
 
   addLike(member: Members) {
     this.memberService.addLike(member.userName).subscribe({
       next: () => {
         this.toastr.success('You have liked ' + member.knownAs);
+        this.isLiked = true;
       },
       error: error => {
         this.toastr.error(error.error);
       }
     })
   }
+
 }

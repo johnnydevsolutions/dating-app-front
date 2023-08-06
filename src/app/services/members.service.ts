@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Members } from '../models/members';
-import { Observable, map, of, take } from 'rxjs';
+import { Observable, catchError, map, of, take, tap } from 'rxjs';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
 import { ContaService } from './conta.service';
@@ -109,5 +109,17 @@ export class MembersService {
     params = params.append('predicate', predicate);
 
     return getPaginatedResult<Members[]>(this.APILikes + 'likes', params, this.http);
+  }
+
+  checkLike(username: string): Observable<boolean> {
+    return this.getLikes("liked", 1, 100)
+      .pipe(
+        map((paginatedResult: PaginatedResult<Members[]>) => {
+          if (paginatedResult.result) {
+            return paginatedResult.result.some(member => member.userName === username);
+          }
+          return false;
+        })
+      );
   }
 }
