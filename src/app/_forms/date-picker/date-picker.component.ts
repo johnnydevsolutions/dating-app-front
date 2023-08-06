@@ -1,4 +1,4 @@
-import { Component, Input, Self } from '@angular/core';
+import { Component, Input, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
@@ -11,14 +11,20 @@ export class DatePickerComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() maxDate?: Date | undefined;
   bsConfig: Partial<BsDatepickerConfig> | undefined
+  @ViewChild('dp') datepicker: any;
 
   constructor(@Self() public ngControl: NgControl) {
     this.ngControl.valueAccessor = this;
     this.bsConfig = {
       containerClass: 'theme-red',
-      dateInputFormat: 'MMMM DD, YYYY'
+      dateInputFormat: 'MMMM DD, YYYY',
+      showWeekNumbers: false // Desativa a exibição dos números das semanas
     }
   }
+
+  toggleDatePicker() {
+    this.datepicker.toggle();
+}
 
   writeValue(obj: any): void {
 

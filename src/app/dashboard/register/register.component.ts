@@ -32,7 +32,7 @@ export class RegisterComponent {
       username: ['', Validators.required],
       gender: ['', Validators.required],
       knownAs: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
+      dateOfBirth: ['', this.customDateValidator()],
       city: ['', Validators.required],
       country: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8),Validators.pattern(/^(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/)]],
@@ -43,6 +43,17 @@ export class RegisterComponent {
         this.registerForm.controls['confirmPassword'].updateValueAndValidity();
       }
     })
+}
+
+ customDateValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const selectedDate = control.value;
+
+    // Implement your validation logic here.
+    // You can check if the selectedDate is a valid date or any other condition you require.
+    // For example, to validate that the date is not empty, you can use:
+    return selectedDate ? null : { 'emptyDate': true };
+  };
 }
 
   matchValues(matchTo: string): ValidatorFn {

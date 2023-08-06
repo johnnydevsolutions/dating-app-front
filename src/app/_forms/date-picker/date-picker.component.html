@@ -1,6 +1,9 @@
-<div class="mb-3">
-  <input type="text" [class.is-invalid]="control.touched && control.invalid" class="form-control" [formControl]="control"
+<div class="mb-3 position-relative">
+  <input #dp="bsDatepicker" type="text" [class.is-invalid]="control.touched && control.invalid" class="form-control date-cursor custom-invalid-input" [formControl]="control"
     placeholder="{{label}}" bsDatepicker [bsConfig]="bsConfig" [maxDate]="maxDate">
+    <div class="icon-container">
+      <i class="fa fa-calendar calendar-icon" (click)="toggleDatePicker()"></i>
+  </div>
 
   <div class="invalid-feedback" *ngIf="control.errors?.['required']">
     {{label}} is required
