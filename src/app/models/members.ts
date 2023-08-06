@@ -15,4 +15,5 @@ export interface Members {
   city: string
   country: string
   photos: Photo[]
+  likes: number;
 }

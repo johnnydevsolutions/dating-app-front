@@ -25,7 +25,7 @@
         <div class="card-footer">
           <div class="btn-group d-flex">
             <!-- <button class="btn btn-primary btn-block" [routerLink]="['/members', member.userName]">View Profile</button> -->
-            <button class="btn btn-primary btn-block">Like</button>
+            <button class="btn btn-primary btn-block" (click)="likeMember()">Match</button>
             <button (click)="selectTab('Messages')" class="btn btn-success btn-block">Send Message</button>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { Members } from 'src/app/models/members';
 import { Messages } from 'src/app/models/messages';
@@ -30,7 +31,9 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private messageService: MessagesService,
               public presenceService: PresenceService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService,
+              private memberService: MembersService) {
                this.contaService.currentUser$.pipe(take(1)).subscribe({
                   next: user => {
                     if (user) this.user = user;
@@ -96,4 +99,23 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
       this.messageService.stopHubConnection();
     }
   }
+
+  likeMember() {
+   if (this.user && this.member) {
+    this.memberService.addLike(this.member.userName).subscribe(
+      () => {
+        // Success handling: Update the likes count locally after a successful like.
+        this.member.likes++;
+        // Show the toastr message
+        this.toastr.success('Usuário curtido com sucesso!', 'Sucesso');
+      },
+      (error) => {
+        // Error handling: Display an error message or perform necessary actions.
+        console.error('Error liking member:', error);
+        // Show the toastr error message
+        this.toastr.error('Erro ao curtir usuário. Por favor, tente novamente.', 'Erro');
+      }
+    );
+  }
+}
 }

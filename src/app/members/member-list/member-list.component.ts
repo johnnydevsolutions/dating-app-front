@@ -13,7 +13,6 @@ import { MembersService } from 'src/app/services/members.service';
   styleUrls: ['./member-list.component.scss']
 })
 export class MemberListComponent {
-  // members$: Observable<Members[]> | undefined;
   members: Members[] = [];
   pagination: Pagination | undefined;
   // pageNumber = 1;
@@ -27,6 +26,12 @@ export class MemberListComponent {
 
   ngOnInit(): void {
     this.loadMembers();
+    this.memberService.currentUser$.subscribe(user => {
+      if (user) {
+        this.userParams = this.memberService.resetUserParams(user);
+        this.loadMembers();
+      }
+    });
   }
 
   loadMembers() {

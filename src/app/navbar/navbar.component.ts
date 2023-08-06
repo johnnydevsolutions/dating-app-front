@@ -32,6 +32,6 @@ login(){
 
  logout(){
    this.contaService.logout();
-    this.router.navigateByUrl('/');
+   this.router.navigateByUrl('/');
  }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Members } from '../models/members';
-import { map, of, take } from 'rxjs';
+import { Observable, map, of, take } from 'rxjs';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
 import { ContaService } from './conta.service';
@@ -22,17 +22,18 @@ export class MembersService {
   memberCache = new Map();
   user: User | undefined;
   userParams: UserParams | undefined;
+  currentUser$: Observable<User | null> = this.contaService.currentUser$;
+
 
   constructor(private http: HttpClient,
               private contaService: ContaService) {
-                this.contaService.currentUser$.pipe(take(1)).subscribe({
-                  next: user => {
-                    if (user) {
-                      this.userParams = new UserParams(user);
-                      this.user = user;
-                    }
+                this.currentUser$ = this.contaService.currentUser$.pipe(take(1));
+                this.currentUser$.subscribe(user => {
+                  if (user) {
+                    this.userParams = new UserParams(user);
+                    this.user = user;
                   }
-                })
+                });
               }
 
 
@@ -45,12 +46,13 @@ export class MembersService {
     this.userParams = params;
   }
 
-  resetUserParams() {
-    if (this.user) {
+  resetUserParams(user?: User) {
+    if (user) {
+      this.userParams = new UserParams(user);
+    } else if (this.user) {
       this.userParams = new UserParams(this.user);
-      return this.userParams;
     }
-    return;
+    return this.userParams;
   }
 
   getMembers(userParams:UserParams) {
@@ -77,7 +79,6 @@ export class MembersService {
     const member = [...this.memberCache.values()]
       .reduce((arr, elem) => arr.concat(elem.result), [])
       .find((member: Members) => member.userName === username);
-      /* console.log(member); */
     return this.http.get<Members>(this.APIGet + 'users/' + username);
   }
 
@@ -108,40 +109,5 @@ export class MembersService {
     params = params.append('predicate', predicate);
 
     return getPaginatedResult<Members[]>(this.APILikes + 'likes', params, this.http);
-    /* return this.http.get<Members[]>(this.APILikes + 'likes?predicate=' + predicate); */
   }
-
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = 'SEU_TOKEN_DE_AUTENTICACAO'; // Recupere seu token de autenticação
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
-  /* private getPaginatedResult<T>(url: string, params: HttpParams) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-    return this.http.get<T>(this.APIGet + 'users', { observe: 'response', params }).pipe(
-      map(response => {
-        if (response.body) {
-          paginatedResult.result = response.body;
-        }
-        const pagination = response.headers.get('Pagination');
-        if (pagination) {
-          paginatedResult.pagination = JSON.parse(pagination);
-        }
-        return paginatedResult;
-      })
-    );
-  }
-
-  private getPaginationHeaders(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-
-      params = params.append('pageNumber', pageNumber.toString());
-      params = params.append('pageSize', pageSize.toString());
-
-    return params;
-  } */
 }
