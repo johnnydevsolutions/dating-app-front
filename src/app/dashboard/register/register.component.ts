@@ -29,7 +29,7 @@ export class RegisterComponent {
 
   initializeForm() {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.pattern(/^[^\s]+$/)]], // Update the pattern to disallow spaces
       gender: ['', Validators.required],
       knownAs: ['', Validators.required],
       dateOfBirth: ['', this.customDateValidator()],

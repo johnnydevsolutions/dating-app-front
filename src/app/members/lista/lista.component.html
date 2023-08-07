@@ -1,15 +1,15 @@
 <div class="text-center mt-3">
-  <h2>{{predicate == 'liked'? 'Members I like': 'Members who like me'}}</h2>
+  <h2>{{predicate == 'liked'? 'Members I Match': 'Members Who Match me'}}</h2>
 </div>
 
 <div class="container mt-3">
   <div class="d-flex">
     <div class="btn-group" name="predicate">
       <button class="btn btn-primary" btnRadio="liked" [(ngModel)]="predicate" (click)="loadLikes()">
-        Members I like
+        Matches
       </button>
       <button class="btn btn-primary" btnRadio="likedBy" [(ngModel)]="predicate" (click)="loadLikes()">
-        Members who like me
+        Wants to match me
       </button>
     </div>
   </div>
