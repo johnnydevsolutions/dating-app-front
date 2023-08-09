@@ -25,7 +25,10 @@ ngOnInit(): void {
 
 login(){
   this.contaService.login(this.model).subscribe({
-    next: () => this.router.navigateByUrl('/members'),
+    next: () => {
+       this.router.navigateByUrl('/members'),
+       window.location.reload();
+    },
     error: error => this.toastr.error(error.error)
     });
 }

@@ -1,5 +1,6 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { Members } from 'src/app/models/members';
@@ -14,6 +15,7 @@ import { MembersService } from 'src/app/services/members.service';
 })
 export class MemberEditComponent {
 @ViewChild('editForm') editForm: NgForm | undefined;
+currentUser: any;
 @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
   if (this.editForm?.dirty) {
     $event.returnValue = true;
@@ -24,7 +26,8 @@ user: User | null = null;
 
   constructor(private contaService: ContaService,
               private memberService: MembersService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private router: Router) {
                 this.contaService.currentUser$.pipe(take(1)).subscribe({
                   next: user => this.user = user
                 })
@@ -50,4 +53,26 @@ user: User | null = null;
     }
     )
   }
+
+  deleteAccount() {
+    if (confirm('Tem certeza que deseja remover seu perfil? Esta ação não pode ser desfeita.')) {
+      if (!this.user) {
+        return;
+      }
+      this.memberService.deleteMember(this.user.userName).subscribe(() => {
+        this.toastr.success('Perfil removido com sucesso');
+        this.logoutt();
+      }, error => {
+        if (error.status !== 204) {
+          this.toastr.error('Falha ao remover o perfil');
+      }}
+      );
+  }
+ }
+
+ logoutt(){
+  this.contaService.logout();
+  this.router.navigateByUrl('/');
+}
+
 }

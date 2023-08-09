@@ -122,4 +122,9 @@ export class MembersService {
         })
       );
   }
+
+  deleteMember(username: string): Observable<any> {
+    return this.http.delete(`${environment.API3}users/${username}`);
+  }
+
 }
