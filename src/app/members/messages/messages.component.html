@@ -29,7 +29,7 @@
     <thead>
       <tr>
         <th style="width: 46%">Message</th>
-        <th style="width: 20%">From / To</th>
+        <th style="width: 25%">From / To</th>
         <th style="width: 20%">Sent / Received</th>
         <th style="width: 20%"></th>
       </tr>
@@ -44,14 +44,14 @@
         <td>
           <div *ngIf="container === 'Outbox'">
             <img src="{{message.recipientPhotoUrl || './assets/user.png'}}" class="img-circle rounded-circle me-2 message-user-photo" alt="recipient photo">
-            <strong>{{message.recipientUsername | titlecase}}</strong>
+           <!--  <strong>{{message.recipientUsername | titlecase}}</strong> -->
           </div>
           <div *ngIf="container !== 'Outbox'">
             <img src="{{message.senderPhotoUrl  || './assets/user.png'}}" class="img-circle rounded-circle me-2 message-user-photo" alt="recipient photo">
-            <strong>{{message.senderUsername  | titlecase}}</strong>
+            <!-- <strong>{{message.senderUsername  | titlecase}}</strong> -->
           </div>
         </td>
-        <td>{{message.messageSent | date:'medium'}}</td>
+        <td>{{message.messageSent | date:'MMM d, y, h:mm a'}}</td>
         <td>
           <button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)">Delete</button>
         </td>
