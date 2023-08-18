@@ -36,7 +36,6 @@ export class ContaService {
         if (user){
           this.setCurrentUser(user);
         }
-        console.log(user)
       })
     );
   }
@@ -45,11 +44,9 @@ export class ContaService {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
     this.presenceService.createHubConnection(user);
-    console.log('Logout feito com sucesso');
   }
 
   logout() {
-    console.log('Fazendo logout...');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
